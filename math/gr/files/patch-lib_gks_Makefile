@@ -1,0 +1,31 @@
+--- lib/gks/Makefile.orig	2024-06-19 11:12:20 UTC
++++ lib/gks/Makefile
+@@ -8,7 +8,7 @@ endif
+            INCDIR = $(DESTDIR)$(GRDIR)/include
+           FONTDIR = $(DESTDIR)$(GRDIR)/fonts
+ 
+-ifeq ($(shell arch), arm64)
++ifeq ($(shell uname -p), arm64)
+     ARCH = arm64
+ else
+     ARCH = x86_64
+@@ -85,7 +85,9 @@ gksqt:
+ 	$(CC) -o gksm $(LDFLAGS) gksm.c libGKS.a $(FTLIBS) $(ZLIBS) $(LIBS)
+ 
+ gksqt:
++ifdef GR_QT5
+ 	$(MAKE) -C qt -f makefile.mak GRDIR=$(GRDIR)
++endif
+ 
+ ifeq ($(UNAME), Darwin)
+ gksterm: $(THIRDPARTYDIR)/lib/libzmq.a
+@@ -114,7 +116,9 @@ install:
+ 	cp -a fonts/* $(FONTDIR)
+ 	@if [ ! -d $(INCDIR) ]; then mkdir -m 755 $(INCDIR); fi
+ 	cp -p gks.h $(INCDIR)
++ifdef GR_QT5
+ 	$(MAKE) -C qt -f makefile.mak install
++endif
+ ifeq ($(UNAME), Darwin)
+ 	@if [ ! -d $(DESTDIR)$(GRDIR)/Applications ]; then \
+ 	mkdir -m 755 $(DESTDIR)$(GRDIR)/Applications; fi

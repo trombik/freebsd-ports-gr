@@ -1,0 +1,17 @@
+--- 3rdparty/libpng16/Makefile.orig	2024-06-19 11:10:26 UTC
++++ 3rdparty/libpng16/Makefile
+@@ -6,12 +6,12 @@ PNGCFLAGS += -mmacosx-version-min=10.15
+ ifeq ($(shell uname),Darwin)
+ ifneq ($(notdir $(CC)),emcc)
+ PNGCFLAGS += -mmacosx-version-min=10.15
+-ifeq ($(shell arch),arm64)
++ifeq ($(shell uname -p),arm64)
+ PNGCFLAGS += -DPNG_ARM_NEON_OPT=0
+ endif
+ endif
+ endif
+-ifeq ($(shell arch),aarch64)
++ifeq ($(shell uname -p),aarch64)
+ PNGCFLAGS += -DPNG_ARM_NEON_OPT=0
+ endif
+       OBJS = \

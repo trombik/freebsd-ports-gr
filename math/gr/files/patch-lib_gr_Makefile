@@ -1,0 +1,22 @@
+--- lib/gr/Makefile.orig	2024-06-19 12:06:12 UTC
++++ lib/gr/Makefile
+@@ -84,7 +84,9 @@ libqtgr:
+ 	$(ZLIBS) $(QHLIBS) $(LIBS) $(LDFLAGS)
+ 
+ libqtgr:
++ifdef GR_QT5
+ 	$(MAKE) -C qtgr
++endif
+ 
+ gr_version.h: $(GR_VERSION_H_DEPS)
+ 	../../lib/Version > $@
+@@ -100,7 +102,9 @@ install:
+ 	cp -p libGR.* $(LIBDIR)
+ 	@if [ ! -d $(INCDIR) ]; then mkdir -m 755 $(INCDIR); fi
+ 	cp -p gr.h $(INCDIR)
++ifdef GR_QT5
+ 	$(MAKE) -C qtgr install
++endif
+ 
+ clean:
+ 	$(MAKE) -C qtgr clean

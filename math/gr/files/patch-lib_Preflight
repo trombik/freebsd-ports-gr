@@ -1,17 +1,14 @@
---- lib/Preflight.orig	2024-06-19 01:36:58 UTC
+--- lib/Preflight.orig	2024-06-18 15:27:31 UTC
 +++ lib/Preflight
-@@ -292,7 +292,13 @@ eof
-   else
+@@ -289,8 +289,10 @@ eof
+     x11path="/opt/X11"
+   elif [ -d /usr/X11R6 ]; then
+     x11path="/usr/X11R6"
+-  else
++  elif [ -d /usr/X11 ]; then
      x11path="/usr/X11"
++  else
++    x11path="/usr/local"
    fi
--  cmd="${CC} ${EXTRA_CFLAGS} ${EXTRA_LDFLAGS} -o $tmpout $tmpsrc -I$x11path/include -L$x11path/lib -lXt -lX11"
-+  x11includepath="${x11path}/include"
-+  x11libpath="${x11path}/lib"
-+  if [ `uname` = "FreeBSD" ]; then
-+      x11includepath="${LOCALBASE}/include/X11"
-+      x11libpath="${LOCALBASE}/lib/X11"
-+  fi
-+  cmd="${CC} ${EXTRA_CFLAGS} ${EXTRA_LDFLAGS} -o $tmpout $tmpsrc -I$x11includepath -L$x11libpath -lXt -lX11"
+   cmd="${CC} ${EXTRA_CFLAGS} ${EXTRA_LDFLAGS} -o $tmpout $tmpsrc -I$x11path/include -L$x11path/lib -lXt -lX11"
    $cmd >/dev/null 2>&1
-   if [ $? -ne 0 ]; then
-     x11defs="X11DEFS=-DNO_X11 X11INC= X11LIBS="
